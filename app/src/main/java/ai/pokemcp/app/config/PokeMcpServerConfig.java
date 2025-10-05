@@ -1,5 +1,7 @@
 package ai.pokemcp.app.config;
 
+import ai.pokemcp.app.controller.HealthController;
+import ai.pokemcp.app.controller.PokeController;
 import ai.pokemcp.app.service.HealthService;
 import ai.pokemcp.app.service.PokeApiService;
 import org.springframework.ai.tool.ToolCallbackProvider;
@@ -29,9 +31,19 @@ public class PokeMcpServerConfig {
     }
 
     @Bean
+    public PokeController pokeController() {
+        return new PokeController(pokeApiService());
+    }
+
+    @Bean
+    public HealthController healthController() {
+        return new HealthController(healthService());
+    }
+
+    @Bean
     public ToolCallbackProvider pokeApiTools() {
         return MethodToolCallbackProvider.builder()
-                .toolObjects(pokeApiService(), healthService())
+                .toolObjects(pokeController(), healthController())
                 .build();
     }
 }

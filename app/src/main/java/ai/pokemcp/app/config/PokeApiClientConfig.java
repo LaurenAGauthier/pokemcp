@@ -1,5 +1,7 @@
 package ai.pokemcp.app.config;
 
+import java.time.Duration;
+
 import io.netty.resolver.DefaultAddressResolverGroup;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -9,18 +11,15 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 import skaro.pokeapi.PokeApiReactorCachingConfiguration;
 
-import java.time.Duration;
-
 @Configuration
 @Import(PokeApiReactorCachingConfiguration.class)
 @EnableCaching
 public class PokeApiClientConfig {
     @Bean
     public ConnectionProvider connectionProvider() {
-        return ConnectionProvider.builder("Auto refresh & no connection limit")
-                .maxIdleTime(Duration.ofSeconds(10))
-                .maxConnections(500)
-                .pendingAcquireMaxCount(-1)
+        return ConnectionProvider.builder("PokeAPI")
+                .maxIdleTime(Duration.ofSeconds(15))
+                .maxConnections(50)
                 .build();
     }
 

@@ -1,27 +1,22 @@
 package ai.pokemcp.app.service;
 
+import java.time.Duration;
+
 import ai.pokemcp.app.dto.HealthResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import skaro.pokeapi.client.PokeApiClient;
 import skaro.pokeapi.resource.pokemon.Pokemon;
-
-import java.time.Duration;
 
 @Slf4j
 @Service
 public class HealthService {
     private final PokeApiClient pokeApiClient;
 
-    @Autowired
     public HealthService(PokeApiClient pokeApiClient) {
-        log.info("HealthService initialized with PokeApiClient");
         this.pokeApiClient = pokeApiClient;
     }
 
-    @Tool(name = "getHealth", description = "Check server and PokeAPI health")
     public HealthResponse getHealth() {
         return HealthResponse.builder()
                 .server(HealthResponse.HealthStatus.HEALTHY)
