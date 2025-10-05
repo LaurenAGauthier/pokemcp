@@ -10,6 +10,8 @@ import skaro.pokeapi.client.PokeApiClient;
 import skaro.pokeapi.query.PageQuery;
 import skaro.pokeapi.resource.NamedApiResourceList;
 import skaro.pokeapi.resource.pokemon.Pokemon;
+import skaro.pokeapi.resource.pokemonform.PokemonForm;
+import skaro.pokeapi.resource.pokemonspecies.PokemonSpecies;
 
 @Slf4j
 @Service
@@ -51,6 +53,32 @@ public class PokeApiService {
         } catch (Exception e) {
             log.atError().setCause(e).log("Error fetching Pokemon: {}", name);
             throw new RuntimeException("Failed to fetch Pokemon: " + name, e);
+        }
+    }
+
+    public PokemonSpecies getSpecificSpecies(String name) {
+        try {
+            log.atInfo().addArgument(name).log("Fetching Pokemon Species: {}");
+            return pokeApiClient.getResource(PokemonSpecies.class, name)
+                    .timeout(Duration.ofSeconds(SINGLETON_TIMEOUT))
+                    .retry(MAX_RETRIES)
+                    .block();
+        } catch (Exception e) {
+            log.atError().setCause(e).log("Error fetching Pokemon Species: {}", name);
+            throw new RuntimeException("Failed to fetch Pokemon Species: " + name, e);
+        }
+    }
+
+    public PokemonForm getSpecificForm(String name) {
+        try {
+            log.atInfo().addArgument(name).log("Fetching Pokemon Form: {}");
+            return pokeApiClient.getResource(PokemonForm.class, name)
+                    .timeout(Duration.ofSeconds(SINGLETON_TIMEOUT))
+                    .retry(MAX_RETRIES)
+                    .block();
+        } catch (Exception e) {
+            log.atError().setCause(e).log("Error fetching Pokemon Form: {}", name);
+            throw new RuntimeException("Failed to fetch Pokemon Form: " + name, e);
         }
     }
 }

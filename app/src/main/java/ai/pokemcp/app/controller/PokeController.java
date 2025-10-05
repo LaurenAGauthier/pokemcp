@@ -7,6 +7,8 @@ import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Controller;
 import skaro.pokeapi.resource.NamedApiResourceList;
 import skaro.pokeapi.resource.pokemon.Pokemon;
+import skaro.pokeapi.resource.pokemonform.PokemonForm;
+import skaro.pokeapi.resource.pokemonspecies.PokemonSpecies;
 
 @Slf4j
 @Controller
@@ -26,5 +28,15 @@ public class PokeController {
     @Tool(name = "getSpecificPokemon", description = "Get information about a specific Pokemon by name or ID")
     public Pokemon getSpecificPokemon(@ToolParam(description = "name or ID of the pokemon") String name) {
         return pokeApiService.getSpecificPokemon(name);
+    }
+
+    @Tool(name = "getSpecificSpecies", description = "Get information about a specific Pokemon species by name or ID")
+    public PokemonSpecies getSpecificSpecies(@ToolParam(description = "name or ID of the pokemon species") String name) {
+        return pokeApiService.getSpecificSpecies(name);
+    }
+
+    @Tool(name = "getSpecificForm", description = "Get information about a specific Pokemon form by name or ID")
+    public PokemonForm getSpecificForm(@ToolParam(description = "name or ID of the pokemon form") String name) {
+        return pokeApiService.getSpecificForm(name);
     }
 }
